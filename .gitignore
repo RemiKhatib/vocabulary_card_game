@@ -1,0 +1,8 @@
+#Testing file
+test.py
+
+#Binaries
+__pycache__/
+
+#Environment
+.venv
