@@ -13,7 +13,7 @@ def vocabulary_game():
     #print(dict_full)
 
     """Genrerate the card game"""
-    card(dict_full)
+    card.generate(dict_full)
 
 
 # Run the game

@@ -35,10 +35,12 @@ Main script which calls all the others. As mentionned, it allows you to learn vo
 
 
 # Future developments
-  - [ ] Create the main structure of the code
-  - [ ] Generate an input file
-  - [ ] Read a file with words and translation
-  - [ ] Use cards
+  - [x] Create the main structure of the code
+  - [x] Generate an input file
+  - [x] Read a file with words and translation
+  - [x] Mapping for the GUI
+  - [ ] Functions to define the main actions of the game
+  - [ ] Association of the function to the GUI
   - [ ] Use synth voice
   - [ ] Have different levels and a different number of questions
   - [ ] Make the requirements
