@@ -1,5 +1,5 @@
-[!WARNING]  
-This program is under development.
+> [!WARNING]  
+> This program is under development.
 
 **Its role is learn languages with cards : on one side there is a word and on the other side there is its translation**
 

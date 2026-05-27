@@ -5,6 +5,7 @@ from config import *
 from . import dictionnary
 from . import card
 
+
 def vocabulary_game():
     """Import the dictionnary"""
     filei = INPUT_DIR / LIST_WORDS
@@ -12,8 +13,11 @@ def vocabulary_game():
     dict_full=dictionnary.load_file(filei)
     #print(dict_full)
 
-    """Genrerate the card game"""
-    card.generate(dict_full)
+    """"Selection of 10 words"""
+    dict_sample=dictionnary.word_selection(dict_full)
+
+    """Genrerate the GUI"""
+    card.generate(dict_sample)
 
 
 # Run the game

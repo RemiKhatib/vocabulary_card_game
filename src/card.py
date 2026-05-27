@@ -7,11 +7,11 @@
 import tkinter as tk
 import random
 
-class AppCard:
+class AppFrame:
     """Class associated with the GUI"""
     def __init__(self,root):
         #Main window caracteristics
-        root.title("🃏 Vocabulary card game 🃏")
+        root.title("🃏 Vocabulary game 🃏")
         root.geometry("900x500")
         root.configure(background="black")
 
@@ -41,9 +41,13 @@ class AppCard:
         tr_title = tk.Label(root, text="List of Questions / Answers", bg="blue")
         tr_title.grid(column=1, row=0, ipadx=10, ipady=10, sticky="NSEW")
         #Center right : "List of Questions / Answers"
-        tr_qa = tk.Label(root, text="Temporary example", bg="green")
+        tr_qa = tk.Frame(root, bg="green")
         tr_qa.grid(column=1, row=1, ipadx=10, ipady=10, sticky="NSEW")
-
+        l_words=[]
+        for i in range(10):
+            l_word = tk.Label(tr_qa, text=f"l_word{i}", bg="grey", anchor="w")
+            l_word.pack(fill="x", expand=True, ipadx=5, ipady=5, padx=0, pady=0)
+            l_words.append(l_word)
 
         #Bottom : Button to pass the cards (new word)
         draw_btn = tk.Button(root, text="Next question", font=("Arial", 14, "bold"),bg="grey",
@@ -52,9 +56,11 @@ class AppCard:
         draw_btn.grid(column=0, row=2, columnspan=2, ipadx=20, ipady=20, sticky="NSEW")
 
 
+    #Draw a new card / Ask a new question
     def draw(self):
         pass
 
+    #Check the answer
     def other_side():
         pass
 
@@ -71,7 +77,7 @@ def generate(dict_full):
       - Display some selected words
     """
     root = tk.Tk()
-    AppCard(root)
+    AppFrame(root)
     root.mainloop()
 
 
