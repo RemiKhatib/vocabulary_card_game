@@ -1,3 +1,8 @@
+
+"""
+This program is a small game to learn vocabulary.
+It asks few questions and you can check your answers by swapping a card.
+"""
 ###########
 # Libraries
 ###########
