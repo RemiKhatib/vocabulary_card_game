@@ -8,7 +8,7 @@ It asks few questions and you can check your answers by swapping a card.
 ###########
 from config import *
 from . import dictionnary
-from . import card
+from . import gui
 
 
 def vocabulary_game():
@@ -22,7 +22,7 @@ def vocabulary_game():
     dict_sample=dictionnary.word_selection(dict_full)
 
     """Genrerate the GUI"""
-    card.generate(dict_sample)
+    gui.generate(dict_sample)
 
 
 # Run the game

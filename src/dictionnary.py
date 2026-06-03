@@ -34,43 +34,37 @@ def load_file(csv_file):
 
     
 def word_selection(dict_full, n=10):
-    """Take n random words"""
+    """
+    Take n random words in the dictionnary.
+    Then shuffle the language in order to ask question in one language or another one.
+    """
     #The full dictionnary needs to be big enough
     if(len(dict_full)<n):
         print(f"Your dictionnary has less than {n} words. It cannot work.")
         quit()
 
-    #Since we have pandas class, we cannot use random.sample directly
+    #Since we have pandas class, we cannot use random.sample directly in order to select them
+    #We have to pass by an idex selection
     indexes=rd.sample(range(len(dict_full)), n)
-    return dict_full.iloc[indexes].reset_index(drop=True)
+    selected_words=dict_full.iloc[indexes].reset_index(drop=True)
 
-
-
-class cards:
-    """
-    Class associated with the words to find. They will be displayed on cards. On one side the question on the other side the answer.
-    For each word :
-     - The language the initial language of word is choosed randomly (0 or 1) in __init__.
-     - When we return the card (retur_card), we see the other language.
-     - At each step, the card is displayed (display)
-    """
-    def __init__(self, dict_sample):
-        self.languageq=[]
-        self.language=[]
-        self.word=[]
+    #Shuffling
+    for i in range(len(selected_words)):
+        if rd.random()<0.5:
+            selected_words.iloc[i,0], selected_words.iloc[i,1] = selected_words.iloc[i,1], selected_words.iloc[i,0]
         
-        for i in range(len(dict_sample)):
-            self.languageq.append(rd.choice(range(2)))                  #Language of the question
-            self.language.append(self.languageq[i])                     #Actual language displayed on the card
-            self.word.append(dict_sample.iloc[i,self.language[i]])         #Word displayed on the card
-            #print(f"__init__: {self.languageq[i]} - {self.word[i]}")
+    
+    #Change column name of the selection
+    #Column1=Question
+    #Column2=Answers
+    #The rest remains
+    column=selected_words.columns.tolist()
+    column[0]="Question"
+    column[1]="Answer"
+    selected_words.columns=column
+    
+    return selected_words
 
-    def return_card(self, dict_sample, index):
-        self.language=(self.language+1)%2
-        self.word=dict_sample.iloc[0,self.language]
-
-    def display(self):
-        return self.word
 
 
 #######
@@ -84,9 +78,6 @@ if __name__=="__main__" :
     dictionnary=load_file(INPUT_DIR / LIST_WORDS)
     selected_words=word_selection(dictionnary)  #Should be OK if your dictionnary is big enough
     print(f"Test for selected_words :\n{selected_words}\n\n\n")  #Test if the order is random
-    
-    #Test for language shuffling
-    questions_list=cards(selected_words)
-    print(f"Test for questions_list :\n{questions_list.display()}\n\n")
+   
 
     pass
