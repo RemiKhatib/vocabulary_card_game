@@ -43,6 +43,7 @@ Main script which calls all the others. As mentionned, it allows you to learn vo
   - [x] Improving design
   - [x] Define the boundaries and make some securities in order to not go out.
   - [ ] Use synth voice gtts
+  - [ ] List all the languages for gtts
   - [ ] Check what happens when texts is long
   - [ ] Check how to have emojis.
   - [ ] Have different levels and a different number of questions

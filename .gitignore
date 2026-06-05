@@ -1,5 +1,5 @@
 #Testing file
-test.py
+test*.py
 
 #Binaries
 __pycache__/

@@ -13,7 +13,7 @@ from . import gui
 
 def vocabulary_game():
     """Import the dictionnary"""
-    filei = INPUT_DIR / LIST_WORDS
+    filei = INPUT_DIR + LIST_WORDS
     print(f"Dictionnary used: {filei}\n")
     dict_full=dictionnary.load_file(filei)
     #print(dict_full)
