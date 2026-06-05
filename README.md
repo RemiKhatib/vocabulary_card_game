@@ -40,8 +40,11 @@ Main script which calls all the others. As mentionned, it allows you to learn vo
   - [x] Read a file with words and translation
   - [x] Mapping for the GUI
   - [x] Functions to define the main actions of the game
-  - [ ] Define the boundaries and make some securities in order to not go out.
-  - [ ] Use synth voice
+  - [x] Improving design
+  - [x] Define the boundaries and make some securities in order to not go out.
+  - [ ] Use synth voice gtts
+  - [ ] Check what happens when texts is long
+  - [ ] Check how to have emojis.
   - [ ] Have different levels and a different number of questions
   - [ ] Make the requirements
 

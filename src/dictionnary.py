@@ -24,28 +24,28 @@ def load_file(csv_file):
         with open(csv_file, 'r', encoding='utf-8-sig') as f:
             dict_full = pd.read_csv(f, dtype=str, sep=";").fillna("")
             #Empty row managment
-            dict_full = dict_full[dict_full["Français"] != ""].reset_index(drop=True)
+            dict_full = dict_full[dict_full[dict_full.columns[0]] != ""].reset_index(drop=True) #If the first column is empty, we remove it.
 
     except FileNotFoundError:
         messagebox.showerror("Error", f"File {csv_file} not found.")
         self.root.quit()
 
-    return dict_full.groupby("Français", dropna=False, sort=False).last().reset_index() # Duplicates managment
+    return dict_full.groupby(dict_full.columns[0], dropna=False, sort=False).last().reset_index() # Remove duplicates on the first column
 
     
-def word_selection(dict_full, n=10):
+def word_selection(dict_full):
     """
-    Take n random words in the dictionnary.
+    Take nb_words random words in the dictionnary.
     Then shuffle the language in order to ask question in one language or another one.
     """
     #The full dictionnary needs to be big enough
-    if(len(dict_full)<n):
+    if(len(dict_full)<nb_words):
         print(f"Your dictionnary has less than {n} words. It cannot work.")
         quit()
 
     #Since we have pandas class, we cannot use random.sample directly in order to select them
     #We have to pass by an idex selection
-    indexes=rd.sample(range(len(dict_full)), n)
+    indexes=rd.sample(range(len(dict_full)), nb_words)
     selected_words=dict_full.iloc[indexes].reset_index(drop=True)
 
     #Shuffling
@@ -77,7 +77,7 @@ if __name__=="__main__" :
     #Test for word_selection
     dictionnary=load_file(INPUT_DIR / LIST_WORDS)
     selected_words=word_selection(dictionnary)  #Should be OK if your dictionnary is big enough
-    print(f"Test for selected_words :\n{selected_words}\n\n\n")  #Test if the order is random
+    print(f"Test for selected_words :\n{selected_words}")  #Test if the order is random
    
 
     pass

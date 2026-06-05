@@ -3,7 +3,7 @@ import pathlib as pl
 ###########
 # Constants
 ###########
-
+nb_words=10   #Number of words which will be asked
 
 #######################
 # Directories and files
