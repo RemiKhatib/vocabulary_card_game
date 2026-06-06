@@ -8,6 +8,7 @@ Contain everything about the GUI.
 ###########
 from config import *
 from . import dictionnary
+from . import voice
 
 import tkinter as tk
 import tkinter.messagebox
@@ -23,7 +24,7 @@ class AppFrame:
     Class associated with the GUI
         
     The screen is divide in 5 regions :
-        - Top left (small on x and y) : Title "Question / Answer"
+        - Top left (small on x and y) : Title "Question / Answer" + Synthetic voice
         - Top right (big on x, small on y) : Title "List passed words"
         - Center left (small on x, big on y) : The word to find or the answer
         - Center left (big on x and y) : The list of the precedent QA
@@ -36,32 +37,43 @@ class AppFrame:
         self.root.title("🇫🇷 Vocabulary game 🇻🇳")
         self.root.geometry("900x500")
         self.root.configure(background="black")
-        self.l_qa_bg1="wheat"
-        self.l_qa_abg1="wheat3"
-        self.l_qa_bg2="rosybrown1"
-        self.l_qa_abg2="rosybrown3"
-
 
         #Ratio of root boxes
         self.root.columnconfigure(0, weight=1)
         self.root.columnconfigure(1, weight=2)
         self.root.rowconfigure(1, weight=1)
 
+        #Colors
+        self.l_qa_bg1="wheat"
+        self.l_qa_abg1="wheat3"
+        self.l_qa_bg2="rosybrown1"
+        self.l_qa_abg2="rosybrown3"
+
+        #Word initialization
+        self.i = self.j = 0 #Indexes associated with the card to dispay (i) ans its face (j)
+
+
         ##########
         #Left side
         ##########
-        #Left Title "Question / Answer"
-        self.l_title = tk.Label(self.root, text="Question / Answer", font=("Arial", 16, "bold", "underline"), bg="burlywood2", relief="groove", bd=2)
+        #Left Title "Question / Answer" with the possibility to play sound
+        icon = tk.PhotoImage(file = "inputs/icons/sound.png")
+        self.sound = icon.subsample(20,20)
+        self.l_title = tk.Button(self.root, text="Question / Answer", font=("Arial", 16, "bold", "underline"),
+                                image=self.sound, compound='right',
+                                bg="burlywood2", relief="groove", bd=2,
+                                command=lambda: self.voice(self.dict_sample.iloc[self.i,self.j], self.dict_sample.iloc[self.i,self.j+2])) #Values of j : 0 question, 1 answer, 2 language of Q, 3 language of A
         self.l_title.grid(column=0, row=0, sticky="NSEW")
 
+
         #Left Word to find or found
-        self.i = self.j = 0 #Indexes associated with the card to dispay (i) ans its face (j)
         self.l_qa = tk.Button(self.root, text=self.dict_sample.iloc[self.i,self.j], font=("Arial", 14), bg=self.l_qa_bg1,
                             activebackground=self.l_qa_abg1,
                             cursor="hand1", relief="raised", bd=4,
                             command=self.other_side)
         self.l_qa.grid(row=1, column=0, ipadx=10, ipady=10, sticky="NSEW")
         
+
         ###########
         #Right side
         ###########
@@ -109,7 +121,6 @@ class AppFrame:
 
 
 
-
     #Check the answer
     def other_side(self):
         self.j=(self.j+1)%2
@@ -120,6 +131,12 @@ class AppFrame:
             bg=self.l_qa_bg2 
             abg=self.l_qa_abg2
         self.l_qa.config(text=f"{self.dict_sample.iloc[self.i,self.j]}", bg=bg, activebackground=abg)
+
+
+    def voice(self, word, lang):
+        voice1=voice.Voice(word, lang)
+
+
 
 
 #------------------
@@ -149,18 +166,18 @@ if __name__=="__main__":
     #Creation of a minimal list to do the tests. Then conversion into pandas.DataFrame.
     #The order between Vietnamese and French is mixed in order to reproduce the deck shuffling.
     list_sample = [
-        ["Chào","Bonjour",  "Good morning / Good afternoon", ""],
-        ["Au revoir", "Tạm biệt", "Good bye", ""],
-        ["Cảm ơn", "Merci", "Thank you", ""],
-        ["De rien", "Không có gì", "You are welcome", ""],
-        ["Un", "Một", "One", ""],
-        ["Deux", "Hai", "Two", ""],
-        ["Ba", "Trois", "Three", ""],
-        ["Bốn", "Quatre", "Four", ""],
-        ["Cinq", "Năm", "Five", ""],
-        ["Six", "Sáu", "Six", ""]
+        ["Chào","Bonjour"           , "vi", "fr"],
+        ["Au revoir", "Tạm biệt"    , "fr", "vi"],
+        ["Cảm ơn", "Merci"          , "vi", "fr"],
+        ["De rien", "Không có gì"   , "fr", "vi"],
+        ["Un", "Một"                , "fr", "vi"],
+        ["Deux", "Hai"              , "fr", "vi"],
+        ["Ba", "Trois"              , "vi", "fr"],
+        ["Bốn", "Quatre"            , "vi", "fr"],
+        ["Cinq", "Năm"              , "fr", "vi"],
+        ["Six", "Sáu"               , "fr", "vi"]
     ]
-    df = pd.DataFrame(list_sample, columns=["Français", "Tiếng Việt", "English", "Emoji"])
+    df = pd.DataFrame(list_sample, columns=["Question", "Answer", "voice_q", "voice_a"])
     print(df)
 
     #Tests of the GUI with the fake pandas.DataFrame

@@ -37,6 +37,7 @@ def word_selection(dict_full):
     """
     Take nb_words random words in the dictionnary.
     Then shuffle the language in order to ask question in one language or another one.
+    We also store the language in order to use synthetic voice
     """
     #The full dictionnary needs to be big enough
     if(len(dict_full)<nb_words):
@@ -48,10 +49,19 @@ def word_selection(dict_full):
     indexes=rd.sample(range(len(dict_full)), nb_words)
     selected_words=dict_full.iloc[indexes].reset_index(drop=True)
 
-    #Shuffling
+    #Shuffling + adding the language associated with every word
+    voice_q , voice_a = [], []
     for i in range(len(selected_words)):
         if rd.random()<0.5:
             selected_words.iloc[i,0], selected_words.iloc[i,1] = selected_words.iloc[i,1], selected_words.iloc[i,0]
+            voice_q.append(selected_words.columns[1])
+            voice_a.append(selected_words.columns[0])
+        else :
+            voice_q.append(selected_words.columns[0])
+            voice_a.append(selected_words.columns[1])
+
+    selected_words.insert(2, "voice_q", voice_q)
+    selected_words.insert(3, "voice_a", voice_a)
         
     
     #Change column name of the selection
@@ -75,7 +85,7 @@ if __name__=="__main__" :
     #word_selection({0,1,2,3,4,5,6,7,8})    #Should be KO
     
     #Test for word_selection
-    dictionnary=load_file(INPUT_DIR / LIST_WORDS)
+    dictionnary=load_file(INPUT_DIR + LIST_WORDS)
     selected_words=word_selection(dictionnary)  #Should be OK if your dictionnary is big enough
     print(f"Test for selected_words :\n{selected_words}")  #Test if the order is random
    
