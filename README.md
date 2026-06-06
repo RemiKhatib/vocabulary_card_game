@@ -1,7 +1,9 @@
 > [!WARNING]  
 > This program is under development.
 
-**Its role is learn languages with cards : on one side there is a word and on the other side there is its translation**
+**It is a game to learn vocabulary.**
+
+**It takes as un input a dictionnary, select N words and ask you questions. You have the possibility to hear the prounonciation**
 
 # Usage
 Each time, one take a card with one word or sentence written on it.
@@ -32,6 +34,14 @@ or
 # List of modules
 #### ./src/vocabulary.py
 Main script which calls all the others. As mentionned, it allows you to learn vocabulary.
+#### ./src/gui.py
+Handle everything related with the GUI
+#### ./src/dictionnary.py
+Generate the list of words which will be asked
+#### ./src/voice.py
+Generate the synthetic voice.
+
+
 
 
 # Future developments
@@ -42,7 +52,9 @@ Main script which calls all the others. As mentionned, it allows you to learn vo
   - [x] Functions to define the main actions of the game
   - [x] Improving design
   - [x] Define the boundaries and make some securities in order to not go out.
-  - [ ] Use synth voice gtts
+  - [x] Use synth voice gtts
+  - [ ] Generate the synthetic voices after the GUI loading in order to hide loading time
+  - [ ] Make a longer dictionnary
   - [ ] List all the languages for gtts
   - [ ] Check what happens when texts is long
   - [ ] Check how to have emojis.

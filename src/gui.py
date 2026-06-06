@@ -12,6 +12,7 @@ from . import voice
 
 import tkinter as tk
 import tkinter.messagebox
+
 import pandas as pd #Usefull only for the unitary tests
 
 
@@ -62,7 +63,7 @@ class AppFrame:
         self.l_title = tk.Button(self.root, text="Question / Answer", font=("Arial", 16, "bold", "underline"),
                                 image=self.sound, compound='right',
                                 bg="burlywood2", relief="groove", bd=2,
-                                command=lambda: self.voice(self.dict_sample.iloc[self.i,self.j], self.dict_sample.iloc[self.i,self.j+2])) #Values of j : 0 question, 1 answer, 2 language of Q, 3 language of A
+                                command=self.play)
         self.l_title.grid(column=0, row=0, sticky="NSEW")
 
 
@@ -132,9 +133,12 @@ class AppFrame:
             abg=self.l_qa_abg2
         self.l_qa.config(text=f"{self.dict_sample.iloc[self.i,self.j]}", bg=bg, activebackground=abg)
 
-
-    def voice(self, word, lang):
-        voice1=voice.Voice(word, lang)
+    #Play the sound
+    def play(self):
+        try:
+            self.dict_sample.iloc[self.i, self.j+4].play()
+        except :
+            print("No sound available.")
 
 
 
@@ -166,18 +170,18 @@ if __name__=="__main__":
     #Creation of a minimal list to do the tests. Then conversion into pandas.DataFrame.
     #The order between Vietnamese and French is mixed in order to reproduce the deck shuffling.
     list_sample = [
-        ["Chào","Bonjour"           , "vi", "fr"],
-        ["Au revoir", "Tạm biệt"    , "fr", "vi"],
-        ["Cảm ơn", "Merci"          , "vi", "fr"],
-        ["De rien", "Không có gì"   , "fr", "vi"],
-        ["Un", "Một"                , "fr", "vi"],
-        ["Deux", "Hai"              , "fr", "vi"],
-        ["Ba", "Trois"              , "vi", "fr"],
-        ["Bốn", "Quatre"            , "vi", "fr"],
-        ["Cinq", "Năm"              , "fr", "vi"],
-        ["Six", "Sáu"               , "fr", "vi"]
+        ["Chào","Bonjour"           , "vi", "fr", "", ""],
+        ["Au revoir", "Tạm biệt"    , "fr", "vi", "", ""],
+        ["Cảm ơn", "Merci"          , "vi", "fr", "", ""],
+        ["De rien", "Không có gì"   , "fr", "vi", "", ""],
+        ["Un", "Một"                , "fr", "vi", "", ""],
+        ["Deux", "Hai"              , "fr", "vi", "", ""],
+        ["Ba", "Trois"              , "vi", "fr", "", ""],
+        ["Bốn", "Quatre"            , "vi", "fr", "", ""],
+        ["Cinq", "Năm"              , "fr", "vi", "", ""],
+        ["Six", "Sáu"               , "fr", "vi", "", ""]
     ]
-    df = pd.DataFrame(list_sample, columns=["Question", "Answer", "voice_q", "voice_a"])
+    df = pd.DataFrame(list_sample, columns=["Question", "Answer", "voice_q", "voice_a", "record_q", "record_a"])
     print(df)
 
     #Tests of the GUI with the fake pandas.DataFrame
