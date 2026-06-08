@@ -56,10 +56,10 @@ class Voice :
 if __name__ == "__main__" :
     #Creation of a minimal list to do the tests. Then test the synthetic voice.
     list_sample = [
-        ["Chào","Bonjour"           , "vi", "fr"],
-        ["Au revoir", "Tạm biệt"    , "fr", "vi"],
+        ["Chào","Bonjour"           , "vi", "fr", "", "", "", ""],
+        ["Au revoir", "Tạm biệt"    , "fr", "vi", "", "", "", ""],
     ]
-    df = pd.DataFrame(list_sample, columns=["Question", "Answer", "voice_q", "voice_a"])
+    df = pd.DataFrame(list_sample, columns=list_columns)
     print(df)
 
     #Records every words (Q =Questions, A=Answers)

@@ -3,7 +3,7 @@
 
 **It is a game to learn vocabulary.**
 
-**It takes as un input a dictionnary, select N words and ask you questions. You have the possibility to hear the prounonciation**
+**It takes as un input a dictionnary, select N words and ask you questions. You have the possibility to hear the prounonciation.**
 
 # Usage
 Each time, one take a card with one word or sentence written on it.
@@ -53,8 +53,10 @@ Generate the synthetic voice.
   - [x] Improving design
   - [x] Define the boundaries and make some securities in order to not go out.
   - [x] Use synth voice gtts
+  - [x] Make a longer dictionnary
+  - [ ] Standardize the column name. Use loc istead of ilocs when pertinent.with variables. If there is nothing in class, we do not display anything.
   - [ ] Generate the synthetic voices after the GUI loading in order to hide loading time
-  - [ ] Make a longer dictionnary
+  - [ ] Thread
   - [ ] List all the languages for gtts
   - [ ] Check what happens when texts is long
   - [ ] Check how to have emojis.

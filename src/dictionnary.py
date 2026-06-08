@@ -60,18 +60,13 @@ def word_selection(dict_full):
             voice_q.append(selected_words.columns[0])
             voice_a.append(selected_words.columns[1])
 
-    selected_words.insert(2, "voice_q", voice_q)
-    selected_words.insert(3, "voice_a", voice_a)
+    selected_words.insert(2, list_columns[2], voice_q)
+    selected_words.insert(3, list_columns[3], voice_a)
+    print(selected_words)
         
     
     #Change column name of the selection
-    #Column1=Question
-    #Column2=Answers
-    #The rest remains
-    column=selected_words.columns.tolist()
-    column[0]="Question"
-    column[1]="Answer"
-    selected_words.columns=column
+    selected_words.columns=list_columns[0:4]+list_columns[6:8]
     
     return selected_words
 

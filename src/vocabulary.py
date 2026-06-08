@@ -34,6 +34,10 @@ def vocabulary_game():
     dict_sample.insert(5, "record_a", records_a)
     #print(dict_sample)
 
+    #=============================================================================
+    #After this point, the Pandas.DataFrame has the colums defined in list_columns
+    #=============================================================================
+
     #Genrerate the GUI
     gui.generate(dict_sample)
 
