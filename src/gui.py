@@ -78,7 +78,7 @@ class AppFrame:
 
         #Left Word to find or found
         self.l_qa = tk.Button(  self.root,
-                                text=f"{self.dict_sample.iloc[self.i,0]}\n\n\n({self.dict_sample.loc[self.i,self.word_class]})",
+                                text=self.display_question(),
                                 font=self.norm_fonts,
                                 bg=self.l_qa_bg1,
                                 activebackground=self.l_qa_abg1,
@@ -139,7 +139,7 @@ class AppFrame:
         if self.i < nb_words-1 :
             self.i+=1
             self.j=0
-            self.l_qa.config(   text=f"{self.dict_sample.iloc[self.i,self.j]}\n\n\n({self.dict_sample.loc[self.i,self.word_class]})",
+            self.l_qa.config(   text=self.display_question(),
                                 bg=self.l_qa_bg1,
                                 activebackground=self.l_qa_abg1
                             )
@@ -158,7 +158,7 @@ class AppFrame:
         else :
             bg=self.l_qa_bg2 
             abg=self.l_qa_abg2
-        self.l_qa.config(   text=f"{self.dict_sample.iloc[self.i,self.j]}\n\n\n({self.dict_sample.loc[self.i,self.word_class]})",
+        self.l_qa.config(   text=self.display_question(),
                             bg=bg,
                             activebackground=abg
                         )
@@ -170,7 +170,12 @@ class AppFrame:
         except :
             print("No sound available.")
 
-
+    #Display the question card of the word
+    def display_question(self):
+        if(self.dict_sample.loc[self.i,self.word_class] == ""):
+            return f"{self.dict_sample.iloc[self.i,self.j]}\n\n\n"
+        else:
+            return f"{self.dict_sample.iloc[self.i,self.j]}\n\n\n({self.dict_sample.loc[self.i,self.word_class]})"
 
 
 #------------------
@@ -200,16 +205,16 @@ if __name__=="__main__":
     #Creation of a minimal list to do the tests. Then conversion into pandas.DataFrame.
     #The order between Vietnamese and French is mixed in order to reproduce the deck shuffling.
     list_sample = [
-        ["Chào","Bonjour"           , "vi", "fr", "", "", "", ""],
+        ["Chào","Bonjour"           , "vi", "fr", "", "", "Nom", ""],
         ["Au revoir", "Tạm biệt"    , "fr", "vi", "", "", "", ""],
-        ["Cảm ơn", "Merci"          , "vi", "fr", "", "", "", ""],
+        ["Cảm ơn", "Merci"          , "vi", "fr", "", "", "Nom", ""],
         ["De rien", "Không có gì"   , "fr", "vi", "", "", "", ""],
-        ["Un", "Một"                , "fr", "vi", "", "", "", ""],
-        ["Deux", "Hai"              , "fr", "vi", "", "", "", ""],
-        ["Ba", "Trois"              , "vi", "fr", "", "", "", ""],
-        ["Bốn", "Quatre"            , "vi", "fr", "", "", "", ""],
-        ["Cinq", "Năm"              , "fr", "vi", "", "", "", ""],
-        ["Six", "Sáu"               , "fr", "vi", "", "", "", ""]
+        ["Un", "Một"                , "fr", "vi", "", "", "Nombre", ""],
+        ["Deux", "Hai"              , "fr", "vi", "", "", "Nombre", ""],
+        ["Ba", "Trois"              , "vi", "fr", "", "", "Nombre", ""],
+        ["Bốn", "Quatre"            , "vi", "fr", "", "", "Nombre", ""],
+        ["Cinq", "Năm"              , "fr", "vi", "", "", "Nombre", ""],
+        ["Six", "Sáu"               , "fr", "vi", "", "", "Nombre", ""]
     ]
     df = pd.DataFrame(list_sample, columns=list_columns)
     print(df)
