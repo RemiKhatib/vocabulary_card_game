@@ -4,7 +4,8 @@ import os
 # Constants
 ###########
 nb_words=10   #Number of words which will be asked
-list_columns=["Question", "Answer", "voice_q", "voice_a", "record_q", "record_a", "Class", "Ranking"]
+list_columns=["Question", "Answer", "voice_q", "voice_a", "record_q", "record_a", "Class", "Ranking"] #List of the columns of the final dataframe
+LEVELS=[100,200,500,1000,"Full"] #Selection of the words according their occurence
 
 
 #######################

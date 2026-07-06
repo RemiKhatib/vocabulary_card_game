@@ -194,6 +194,41 @@ def generate(dict_sample):
 
 #------------------
 
+def levelselection():
+    """
+    Select the difficulty of the game.
+    A window appears with different levels.
+    The number selected corresponds to the ranking max of the word based on their frequency.
+    """
+
+    selected_level = None
+    def on_button_click(level):
+        """
+        Function to return the value of the button.
+        """
+        nonlocal selected_level
+        selected_level = level
+        root.destroy()  # Ferme la fenêtre
+
+    root = tk.Tk()
+    root.geometry("400x500")
+    root.title("Difficulty selection")
+    norm_fonts=("Arial", 14)
+
+    for i in LEVELS:
+        tk.Button(  root,
+                    text=f"Top {i}",
+                    font=norm_fonts,
+                    cursor="hand1",
+                    relief="raised",
+                    bd=4,
+                    command=lambda x=i: on_button_click(x) # "lambda on_button_click(i)" would pass the last value of LEVELS. It is mandatory to use "x=i"
+        ).pack(expand=1)
+    root.mainloop()
+
+    return selected_level
+
+#------------------
 
 
 #######

@@ -25,8 +25,14 @@ def vocabulary_game():
     dict_full=dictionnary.load_file(filei)
     #print(dict_full)
 
+
+    #Selection of the level of difficulty.
+    level=gui.levelselection()
+    dict_level=dictionnary.word_level(dict_full, level)
+
+
     #Selection of nb_words words
-    dict_sample=dictionnary.word_selection(dict_full)
+    dict_sample=dictionnary.word_selection(dict_level)
 
     #Synthtic voice generation
     records_q, records_a = voice.record_voices(dict_sample)

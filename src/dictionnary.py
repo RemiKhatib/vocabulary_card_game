@@ -45,7 +45,7 @@ def word_selection(dict_full):
         quit()
 
     #Since we have pandas class, we cannot use random.sample directly in order to select them
-    #We have to pass by an idex selection
+    #We have to pass by an index selection
     indexes=rd.sample(range(len(dict_full)), nb_words)
     selected_words=dict_full.iloc[indexes].reset_index(drop=True)
 
@@ -62,7 +62,7 @@ def word_selection(dict_full):
 
     selected_words.insert(2, list_columns[2], voice_q)
     selected_words.insert(3, list_columns[3], voice_a)
-    print(selected_words)
+    #print(selected_words)
         
     
     #Change column name of the selection
@@ -72,17 +72,58 @@ def word_selection(dict_full):
 
 
 
+def word_level(dict_full, level):
+    """
+    Select only the words which are desired according to the level.
+    The level is the maximal ranking of a word. The higher the ranking, the most often it is used.
+    """
+
+    #Top level (not an integer)
+    if(level==LEVELS[len(LEVELS)-1]):
+        return dict_full
+
+    #Level as an integer
+    selected = dict_full[dict_full[list_columns[7]].astype(int) <= level]
+    return selected
+
+
+
 #######
 # Tests
 #######
 if __name__=="__main__" :
+    dictionnary=load_file(INPUT_DIR + LIST_WORDS)
+
+    #=======================
+    #Test the word_selection
+    #=======================
     #Test for the length of the dictionnary
     #word_selection({0,1,2,3,4,5,6,7,8})    #Should be KO
     
     #Test for word_selection
-    dictionnary=load_file(INPUT_DIR + LIST_WORDS)
     selected_words=word_selection(dictionnary)  #Should be OK if your dictionnary is big enough
-    print(f"Test for selected_words :\n{selected_words}")  #Test if the order is random
-   
+    print(f"Test for word_selection :\n{selected_words}\n\n")  #Test if the order is random
+    print("==================================================\n\n")
+
+
+    #===============
+    #Test word_level
+    #===============
+    #Minimal test
+    selected_words=word_level(dictionnary, 5)
+    print(f"Test for word_level (max=5):\n{selected_words}\n\n")  #Should display only the words with a maximal ranking of 5
+
+    #Full test
+    selected_words=word_level(dictionnary, LEVELS[len(LEVELS)-1])
+    print(f"Full dictionnary")
+    print(f"Number of words in the initial dictionnary {len(dictionnary)}")
+    print(f"Number of words in the final dictionnary {len(selected_words)}\n\n") #The 2 dictionnaries should have the same size
+        
+    #Over the limits
+    selected_words=word_level(dictionnary, 9999999999)
+    print(f"Over the limits")
+    print(f"Number of words in the initial dictionnary {len(dictionnary)}")
+    print(f"Number of words in the final dictionnary {len(selected_words)}") #The 2 dictionnaries should have the same size
+
 
     pass
