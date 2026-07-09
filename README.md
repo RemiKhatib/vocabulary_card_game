@@ -56,11 +56,11 @@ Generate the synthetic voice.
   - [x] Make a longer dictionnary
   - [x] Standardize the column name. Use loc istead of ilocs when pertinent.with variables. If there is nothing in class, we do not display anything.
   - [x] To have different levels and a different number of questions
+  - [x] Make the requirements
   - [ ] Generate the synthetic voices after the GUI loading in order to hide loading time
   - [ ] Thread
   - [ ] List all the languages for gtts
   - [ ] Check what happens when texts is long
   - [ ] Check how to have emojis.
-  - [ ] Make the requirements
 
 **This program has been created by Remi Khatib**
