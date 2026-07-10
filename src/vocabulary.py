@@ -1,8 +1,17 @@
+"""
+Vocabulary learning game module.
 
+This program is a small game to learn vocabulary. It asks a series of questions
+and allows users to check their answers by flipping cards.
+
+The game workflow:
+    1. Loads a dictionary from a file
+    2. Allows the user to select a difficulty level
+    3. Selects random words from the chosen level
+    4. Generates synthetic voice recordings for questions and answers
+    5. Displays an interactive GUI with flashcards
 """
-This program is a small game to learn vocabulary.
-It asks few questions and you can check your answers by swapping a card.
-"""
+
 ###########
 # Libraries
 ###########
@@ -14,11 +23,24 @@ from . import voice
 
 def vocabulary_game():
     """
-    Main function of the game. It calls all the other functions.
-      - Selection of the questions
-      - Generation of the synthetic voices
-      - Generation of the GUI
+    Main function that orchestrates the vocabulary learning game.
+    
+    This function coordinates the entire game workflow:
+        1. Loads the dictionary from the configured file
+        2. Prompts user to select a difficulty level
+        3. Filters words based on the selected level
+        4. Randomly selects a sample of words
+        5. Generates synthetic voice recordings for questions and answers
+        6. Creates and displays the interactive GUI with flashcards
+    
+    Returns:
+        None
+    
+    Raises:
+        FileNotFoundError: If the dictionary file is not found at the configured path.
+        Exception: If voice generation or GUI creation fails.
     """
+    
     #Import the dictionnary + select n words
     filei = INPUT_DIR + LIST_WORDS
     print(f"Dictionnary used: {filei}\n")

@@ -1,5 +1,15 @@
 """
-Contain everything about the GUI.
+GUI module for the vocabulary learning game.
+
+This module handles the graphical user interface (GUI) for the flashcard game,
+including the display of cards, word lists, and user interactions.
+
+The GUI layout consists of:
+    - Top left: Question/Answer title with sound button
+    - Top right: Title for "List of previous words"
+    - Center left: Current flashcard (word to find or answer)
+    - Center right: List of previously answered word pairs
+    - Bottom: Button to advance to next question
 """
 
 
@@ -22,14 +32,21 @@ import pandas as pd #Usefull only for the unitary tests
 
 class AppFrame:
     """
-    Class associated with the GUI
-        
-    The screen is divide in 5 regions :
-        - Top left (small on x and y) : Title "Question / Answer" + Synthetic voice
-        - Top right (big on x, small on y) : Title "List passed words"
-        - Center left (small on x, big on y) : The word to find or the answer
-        - Center left (big on x and y) : The list of the precedent QA
-        - Bottom (full x and small y): Button to draw the next card (next question).
+    Main GUI class for the vocabulary flashcard game.
+    
+    Manages the interactive display and user interactions for a vocabulary
+    learning game using flashcards. Users can flip cards to reveal answers,
+    play synthetic voice recordings, and track their progress through a list
+    of word pairs.
+    
+    Attributes:
+        word_class (str): Column name for word classification/category.
+        title_fonts (tuple): Font configuration for section titles.
+        norm_fonts (tuple): Font configuration for normal text.
+        l_qa_bg1 (str): Background color for question side of flashcard.
+        l_qa_abg1 (str): Active background color for question side.
+        l_qa_bg2 (str): Background color for answer side of flashcard.
+        l_qa_abg2 (str): Active background color for answer side.
     """
 
     word_class=list_columns[6] #"Class"
@@ -46,6 +63,19 @@ class AppFrame:
 
 
     def __init__(self, root, dict_sample):
+        """
+        Initialize the GUI application frame.
+        
+        Sets up the main window layout with all widgets including the question
+        card, answer list, and navigation buttons. Configures grid layout for
+        responsive resizing.
+        
+        Args:
+            root (tk.Tk): The root Tkinter window.
+            dict_sample (pd.DataFrame): DataFrame containing the word pairs and 
+                                       associated metadata for the game session.
+        """
+
         #Main window caracteristics
         self.root=root
         self.dict_sample=dict_sample
@@ -132,6 +162,17 @@ class AppFrame:
 
     #Draw a new card / Ask a new question
     def draw(self):
+        """
+        Advance to the next flashcard and display the previous answer.
+        
+        Updates the right-side list with the previous word pair answer, 
+        increments the card index, and displays the new question on the left.
+        Displays a completion message when all cards have been shown.
+        
+        Returns:
+            None
+        """
+
         #Display the list of the QA on the right
         self.r_words[self.i].set(f"{self.i+1} : {self.dict_sample.iloc[self.i,0]} → {self.dict_sample.iloc[self.i,1]}")
 
@@ -151,6 +192,16 @@ class AppFrame:
 
     #Check the answer
     def other_side(self):
+        """
+        Toggle between question and answer sides of the current flashcard.
+        
+        Flips the card by switching the displayed content and updating the
+        background color to reflect which side is being shown.
+        
+        Returns:
+            None
+        """
+
         self.j=(self.j+1)%2
         if self.j==0 :
             bg=self.l_qa_bg1
@@ -163,15 +214,40 @@ class AppFrame:
                             activebackground=abg
                         )
 
+
+
     #Play the sound
     def play(self):
+        """
+        Play the synthetic voice recording for the current word.
+        
+        Plays the audio recording associated with the currently displayed side
+        of the flashcard. Falls back to a console message if no audio is available.
+        
+        Returns:
+            None
+        """
+
         try:
             self.dict_sample.iloc[self.i, self.j+4].play()
         except :
             print("No sound available.")
 
+
+
     #Display the question card of the word
     def display_question(self):
+        """
+        Generate the display text for the current flashcard.
+        
+        Formats the word to be displayed with optional category/class information
+        if available in the dictionary.
+        
+        Returns:
+            str: The formatted text for the current flashcard, including the word
+                 and optionally its classification in parentheses.
+        """
+
         if(self.dict_sample.loc[self.i,self.word_class] == ""):
             return f"{self.dict_sample.iloc[self.i,self.j]}\n\n\n"
         else:
@@ -183,10 +259,19 @@ class AppFrame:
 
 def generate(dict_sample):
     """
-    Main function of the card game.
-      - Create the GUI
-      - Handle the actions with the cards
+    Create and launch the main vocabulary game GUI.
+    
+    Initializes the GUI application with the provided word sample and starts
+    the Tkinter event loop.
+    
+    Args:
+        dict_sample (pd.DataFrame): DataFrame containing the selected words and 
+                                   associated metadata for the game.
+    
+    Returns:
+        None
     """
+
     root = tk.Tk()
     AppFrame(root, dict_sample)
     root.mainloop()
@@ -196,9 +281,15 @@ def generate(dict_sample):
 
 def levelselection():
     """
-    Select the difficulty of the game.
-    A window appears with different levels.
-    The number selected corresponds to the ranking max of the word based on their frequency.
+    Display a difficulty level selection window.
+    
+    Presents a menu of difficulty levels to the user. Each level corresponds
+    to a maximum word frequency ranking—higher levels include more commonly
+    used words.
+    
+    Returns:
+        int or str: The selected difficulty level, corresponding to the maximum
+                   word frequency ranking to include in the game.
     """
 
     selected_level = None

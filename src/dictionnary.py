@@ -1,11 +1,16 @@
 """
-Classes and functions associated with the words :
-- Loading dictionnary
-- Choose the words which will be transleted
-- Choose the language of the question and the one wich will be displayed
+Dictionary management module for vocabulary game.
 
-Contain everything to load the dictionnary
+This module handles all dictionary-related operations:
+    - Loading dictionary from CSV files
+    - Selecting random words for the game
+    - Filtering words by difficulty level
+    - Shuffling languages and managing voice language associations
+
+The dictionary structure uses CSV format with semicolon separators, containing
+word translations and frequency/difficulty rankings.
 """
+
 
 ###########
 # Libraries
@@ -19,7 +24,24 @@ import random as rd
 #######################
 #######################
 def load_file(csv_file):
-    """ Load the csv file containing the different words."""
+    """
+    Load and parse a CSV file containing vocabulary words.
+    
+    Reads a CSV file with semicolon separators, removes empty rows, and 
+    eliminates duplicate entries based on the first column. The file is 
+    expected to be encoded in UTF-8.
+    
+    Args:
+        csv_file (str): Path to the CSV file to load.
+    
+    Returns:
+        pd.DataFrame: A cleaned DataFrame with duplicates removed from the 
+                     first column, preserving only the last occurrence.
+    
+    Raises:
+        FileNotFoundError: If the specified CSV file does not exist.
+    """
+
     try:
         with open(csv_file, 'r', encoding='utf-8-sig') as f:
             dict_full = pd.read_csv(f, dtype=str, sep=";").fillna("")
@@ -35,10 +57,30 @@ def load_file(csv_file):
     
 def word_selection(dict_full):
     """
-    Take nb_words random words in the dictionnary.
-    Then shuffle the language in order to ask question in one language or another one.
-    We also store the language in order to use synthetic voice
+    Select and prepare random words for the vocabulary game.
+    
+    Randomly selects a subset of words from the dictionary, randomly shuffles
+    the question and answer languages for each word, and records which language
+    is used for voice synthesis.
+    
+    Args:
+        dict_full (pd.DataFrame): The full dictionary DataFrame containing 
+                                 word translations.
+    
+    Returns:
+        pd.DataFrame: A DataFrame containing selected words with columns:
+                     - Column 0-1: Word translations (randomly shuffled)
+                     - Column 2: Language code for question voice
+                     - Column 3: Language code for answer voice
+    
+    Raises:
+        SystemExit: If the dictionary contains fewer than nb_words entries.
+    
+    Note:
+        The function modifies column order and names. Languages are randomly
+        assigned 50/50 to determine which translation appears as question.
     """
+
     #The full dictionnary needs to be big enough
     if(len(dict_full)<nb_words):
         print(f"Your dictionnary has less than {n} words. It cannot work.")
@@ -74,8 +116,21 @@ def word_selection(dict_full):
 
 def word_level(dict_full, level):
     """
-    Select only the words which are desired according to the level.
-    The level is the maximal ranking of a word. The higher the ranking, the most often it is used.
+    Filter dictionary words by difficulty level.
+    
+    Selects only words whose frequency ranking is below or equal to the 
+    specified level. A higher ranking indicates more common usage.
+    
+    Args:
+        dict_full (pd.DataFrame): The full dictionary DataFrame.
+        level (int or str): Maximum frequency ranking to include. If level 
+                           equals the highest level constant, returns the 
+                           entire dictionary.
+    
+    Returns:
+        pd.DataFrame: A filtered DataFrame containing only words with frequency
+                     ranking <= level (or the entire dictionary if level is 
+                     the maximum level constant).
     """
 
     #Top level (not an integer)
